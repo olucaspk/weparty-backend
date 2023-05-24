@@ -1,9 +1,7 @@
 import { AppError, Report, StatusCode } from "@expressots/core";
 import { prismaClient } from "@providers/database/prisma-client";
 import bcrypt from "bcrypt";
-import ENV from "env";
 import { provide } from "inversify-binding-decorators";
-import jwt from "jsonwebtoken";
 import { ZodError } from "utils";
 import { z } from "zod";
 import {
@@ -61,17 +59,20 @@ export class SignInUserUseCase {
       return null;
     }
 
-    const token = jwt.sign(
-      {
-        id: user.id,
-        role: user.role,
-      },
-      ENV.Jwt.PASS,
-      { expiresIn: 60 },
-    );
+    // const token = jwt.sign(
+    //   {
+    //     id: user.id,
+    //     role: user.role,
+    //   },
+    //   ENV.Jwt.PASS,
+    //   { expiresIn: 60 },
+    // );
 
     return {
-      token,
+      id: user.id,
+      name: user.name + " " + user.lastname,
+      email: user.email,
+      role: user.role,
     };
   }
 }
