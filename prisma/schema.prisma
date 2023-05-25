@@ -13,10 +13,13 @@ model User {
   lastname     String
   email        String @unique
   passwordHash String
-  phone        String
   dob          String
 
-  role String @default("MEMBER")
+  phone         String?
+  document      String?
+  document_type String?
+
+  role String @default("USER")
 
   @@map("users")
 }
