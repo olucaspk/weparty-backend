@@ -19,7 +19,6 @@ export class CreateUserUseCase {
       lastname: z.string(),
       dob: z.string(),
       email: z.string(),
-      phone: z.string(),
       password: z.string(),
     });
 
@@ -54,7 +53,6 @@ export class CreateUserUseCase {
         lastname: data.lastname,
         dob: data.dob,
         email: data.email,
-        phone: data.phone,
         passwordHash,
       },
     });
