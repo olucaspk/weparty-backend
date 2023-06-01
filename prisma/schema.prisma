@@ -12,14 +12,55 @@ model User {
   name         String
   lastname     String
   email        String @unique
-  passwordHash String
-  dob          String
+  passwordHash String @map("password_hash")
 
-  phone         String?
-  document      String?
-  document_type String?
+  dob          String?
+  phone        String?
+  document     String?
+  documentType String? @map("document_type")
 
-  role String @default("USER")
+  role  String  @default("USER")
+  Party Party[]
 
   @@map("users")
+}
+
+model Party {
+  User User @relation(fields: [organizatorId], references: [id])
+
+  id            String @id @default(uuid())
+  organizatorId String @map("organizator_id")
+
+  name        String
+  description String
+  date        DateTime
+  address     String
+  price       Float
+  capacity    Int?
+
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+  PartyTicket PartyTicket[]
+
+  @@map("parties")
+}
+
+model PartyTicket {
+  Party Party @relation(fields: [partyId], references: [id])
+
+  id      String @id @default(uuid())
+  partyId String @map("party_id")
+
+  name     String
+  lastname String
+  email    String
+  phone    String?
+  status   String  @default("IDLE")
+
+  paymentMethod String? @map("payment_method")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("parties_tickets")
 }
